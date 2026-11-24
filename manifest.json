@@ -1,0 +1,19 @@
+
+{
+  "name": "ZENTRO",
+  "short_name": "ZENTRO",
+  "description": "One Platform. Endless Shopping.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#19a6a5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
