@@ -1,1 +1,155 @@
 
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZENTRO | Online Shopping</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fff;color:#171717}
+header{padding:18px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;position:sticky;top:0;background:white;z-index:5}
+.logo{font-size:29px;font-weight:900;letter-spacing:2px}
+.logo span{color:#19a6a5}
+nav a{color:#222;text-decoration:none;margin-left:18px;font-size:14px}
+.hero{background:#f5fafa;padding:65px 7%;text-align:center}
+.hero h1{font-size:42px;margin-bottom:14px}
+.hero p{color:#666;font-size:17px;margin-bottom:25px}
+.btn{background:#171717;color:white;border:0;padding:13px 23px;border-radius:7px;cursor:pointer;font-weight:bold}
+.search{display:block;width:90%;max-width:500px;margin:25px auto;padding:15px;border:1px solid #ddd;border-radius:8px;font-size:16px}
+section{padding:38px 6%}
+h2{font-size:25px;margin-bottom:22px}
+.categories{display:flex;gap:12px;flex-wrap:wrap}
+.category{padding:12px 19px;border:1px solid #ddd;border-radius:30px;background:white;cursor:pointer}
+.category.active{background:#171717;color:white}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:18px}
+.product{border:1px solid #eee;border-radius:12px;overflow:hidden;padding-bottom:15px}
+.product .pic{height:145px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:55px}
+.product h3{font-size:16px;margin:13px 12px 7px}
+.product p{color:#777;margin:0 12px 12px;font-size:14px}
+.product button{margin-left:12px}
+.seller{background:#f5fafa;border-radius:14px;padding:25px}
+input,select{width:100%;padding:13px;margin:8px 0 14px;border:1px solid #ddd;border-radius:7px;font-size:15px}
+.seller button{width:100%}
+footer{text-align:center;padding:30px;background:#171717;color:white;margin-top:30px}
+.small{font-size:12px;color:#aaa;margin-top:10px}
+@media(max-width:600px){
+nav a{margin-left:8px;font-size:12px}
+.hero h1{font-size:32px}
+header{padding:15px 4%}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">ZEN<span>TRO</span></div>
+<nav>
+<a href="#home">Home</a>
+<a href="#shop">Shop</a>
+<a href="#seller">Sell</a>
+</nav>
+</header>
+
+<div class="hero" id="home">
+<h1>Welcome to ZENTRO</h1>
+<p>One Platform. Endless Shopping.</p>
+<p>Shop smart. Sell easy. Grow together.</p>
+<a href="#shop"><button class="btn">Explore Products</button></a>
+</div>
+
+<input class="search" id="search" placeholder="Search products..." oninput="showProducts()">
+
+<section>
+<h2>Shop by Category</h2>
+<div class="categories">
+<button class="category active" onclick="filter('All',this)">All</button>
+<button class="category" onclick="filter('Fashion',this)">Fashion</button>
+<button class="category" onclick="filter('Electronics',this)">Electronics</button>
+<button class="category" onclick="filter('Home',this)">Home</button>
+<button class="category" onclick="filter('Other',this)">Other</button>
+</div>
+</section>
+
+<section id="shop">
+<h2>Explore Products</h2>
+<div class="products" id="products"></div>
+</section>
+
+<section id="seller">
+<div class="seller">
+<h2>Become a ZENTRO Seller</h2>
+<p>Apna product add karein aur ZENTRO par sell karna shuru karein.</p>
+<form id="sellerForm">
+<input id="pname" placeholder="Product name" required>
+<input id="price" type="number" min="1" placeholder="Price in ₹" required>
+<select id="category">
+<option value="Fashion">Fashion</option>
+<option value="Electronics">Electronics</option>
+<option value="Home">Home</option>
+<option value="Other">Other</option>
+</select>
+<button class="btn" type="submit">Add Product</button>
+</form>
+</div>
+</section>
+
+<footer>
+<div class="logo">ZEN<span>TRO</span></div>
+<p>Shop smart. Sell easy. Grow together.</p>
+<p class="small">© 2026 ZENTRO. All rights reserved.</p>
+</footer>
+
+<script>
+let products=[
+{name:"Classic T-Shirt",price:499,category:"Fashion",emoji:"👕"},
+{name:"Smart Watch",price:1299,category:"Electronics",emoji:"⌚"},
+{name:"Sports Shoes",price:999,category:"Fashion",emoji:"👟"},
+{name:"Home Lamp",price:599,category:"Home",emoji:"💡"},
+{name:"Headphones",price:799,category:"Electronics",emoji:"🎧"},
+{name:"Backpack",price:699,category:"Other",emoji:"🎒"}
+];
+
+let selected="All";
+
+function showProducts(){
+let q=document.getElementById("search").value.toLowerCase();
+let list=products.filter(p=>
+(selected==="All"||p.category===selected)&&
+p.name.toLowerCase().includes(q)
+);
+document.getElementById("products").innerHTML=list.map(p=>`
+<div class="product">
+<div class="pic">${p.emoji}</div>
+<h3>${p.name}</h3>
+<p>₹${p.price}</p>
+<button class="btn" onclick="alert('Order feature coming soon!')">View Product</button>
+</div>`).join("")||"<p>No products found.</p>";
+}
+
+function filter(category,button){
+selected=category;
+document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+button.classList.add("active");
+showProducts();
+}
+
+document.getElementById("sellerForm").addEventListener("submit",function(e){
+e.preventDefault();
+products.unshift({
+name:document.getElementById("pname").value,
+price:Number(document.getElementById("price").value),
+category:document.getElementById("category").value,
+emoji:"📦"
+});
+showProducts();
+this.reset();
+alert("Product added on this device!");
+document.getElementById("shop").scrollIntoView();
+});
+
+showProducts();
+</script>
+</body>
+</html>
+
